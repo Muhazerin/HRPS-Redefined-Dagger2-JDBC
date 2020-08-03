@@ -1,0 +1,11 @@
+v1
+Features added:
+1. The program automatically closes after adding room. This is to allow the program to change the number of threads in the scheduler
+
+Bug Fixed:
+1. Hard-coded proper default rate for each room.
+2. Rate has highest priority when updating room
+3. When guest walk in/checks out, it updates the database
+
+Updates:
+1. Updates the way menu item prints.
