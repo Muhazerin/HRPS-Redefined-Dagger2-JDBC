@@ -1,6 +1,8 @@
 v1.1
 Bug Fixed:
 1. Database connectivity issue
+2. Fixed not cancelling reservation
+3. Fixed room not reflecting correct avail_status when checking in
 
 v1
 Features added:
