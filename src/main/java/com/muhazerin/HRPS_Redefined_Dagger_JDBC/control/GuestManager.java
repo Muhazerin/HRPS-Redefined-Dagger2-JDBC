@@ -60,74 +60,18 @@ public class GuestManager implements SelectObject, ModifyObject, PrintSingleObje
 			guest = guestList.get(guestList.size() - 1);
 		}
 		else {
-			// there are items in the guestList,
-			// so, must check whether the name is already inside guestList
-			ArrayList<Guest> tempList = searchGuest();
-			if (tempList.size() == 1) {
-				// Guest exist in the guestList
-				// but must still show info and ask for confirmation
-				System.out.println("Guest found in the guestList");
-				print(tempList.get(0));
-				String choice = "";
-				do {
-					System.out.print("Is it this guest? (Y/n): ");
-					choice = sc.nextLine();
-					if (choice.equalsIgnoreCase("y")) {
-						guest = tempList.get(0);
-					}
-					else if (choice.equalsIgnoreCase("n")) {
-						System.out.println("Ok. Creating new guest");
-						add();
-						guest = guestList.get(guestList.size() - 1);
-					}
-					else {
-						System.out.println("Invalid Choice");
-					}
-				} while (!choice.equalsIgnoreCase("y") && !choice.equalsIgnoreCase("n"));
-			}
-			else if (tempList.size() == 0) {
-				// guest does not exist in the guestList
-				add();
+			// if guestlist isn't empty,
+			// need to go through that list and check whether guest details is stored in the database.
+			System.out.print("Enter nric: ");
+			String nric = sc.nextLine();
+			guest = searchGuestByNRIC(nric);	// nric is the unique key
+			
+			if (Objects.equals(guest, null)) { // if guest is not found in the guestlist
+				add(nric);
 				guest = guestList.get(guestList.size() - 1);
 			}
-			else {
-				// if there is multiple guests found in the guestList,
-				// ask the user if the guest is in the guestList
-				// if yes, specify the guest
-				// if no, create new guest
-				System.out.println("Multiple guests found in the guestList");
-				for (Guest g : tempList) {
-					print(g);
-				}
-				String choice = "";
-				do {
-					System.out.print("Is the guest you are seaching for in this list? (Y/n): ");
-					choice = sc.nextLine();
-					if (choice.equalsIgnoreCase("y")) {
-						// specify the guest
-						do {
-							System.out.print("Enter guest's full name: ");
-							String name = sc.nextLine();
-							for (Guest g : tempList) {
-								if (g.getName().equals(name)) {
-									guest = g;
-									break;
-								}
-							}
-							if (Objects.equals(guest, null)) {
-								System.out.println("Invalid Name");
-							}
-						} while (Objects.equals(guest, null));
-					}
-					else if (choice.equalsIgnoreCase("n")) {
-						System.out.println("Ok. Creating new guest");
-						add();
-						guest = guestList.get(guestList.size() - 1);
-					}
-					else {
-						System.out.println("Invalid Choice");
-					}
-				} while (!choice.equalsIgnoreCase("y") && !choice.equalsIgnoreCase("n"));
+			else {	// if guest is found in the guestlist
+				System.out.println("Guest found in the guest list");
 			}
 		}
 		return guest;
@@ -290,26 +234,19 @@ public class GuestManager implements SelectObject, ModifyObject, PrintSingleObje
 	}
 	
 	private void add() {
-		String nric, name, gender, nationality, address, country;
+		String nric;
+		
+		System.out.print("Enter nric: ");
+		nric = sc.nextLine();
+		
+		add(nric);
+	}
+	private void add(String nric) {
+		String name, gender, nationality, address, country;
 		String cName, cAddress, cCountry, cExp, option;
 		long cCardNo = 0;
 		int cCvv = 0;
 		CreditCard.CardType cCardType = null;
-		
-		// Add Guest Details
-		System.out.print("Enter nric: ");
-		nric = sc.nextLine();
-		
-		if (guestList.size() > 0) {
-			for (Guest g : guestList) {
-				if (g.getNRIC().equalsIgnoreCase(nric)) {
-					System.out.println("Guest found in guest list");
-					System.out.println("Guest is not added");
-					System.out.printf("NRIC: %s, Name: %s, Gender: %s, Nationality: %s\n", g.getNRIC(), g.getName(), g.getGender(), g.getNationality());
-					return;
-				}
-			}
-		}
 		
 		System.out.print("Enter name: ");
 		name = sc.nextLine();
@@ -412,6 +349,18 @@ public class GuestManager implements SelectObject, ModifyObject, PrintSingleObje
 			}
 		}
 		return tempGuest;
+	}
+	private Guest searchGuestByNRIC(String nric) {
+		Guest guest = null;
+		
+		for (Guest g : guestList) {
+			if (g.getNRIC().equalsIgnoreCase(nric)) {
+				guest = g;
+				break;
+			}
+		}
+		
+		return guest;
 	}
 	private int validateChoice(int choice, String inputText) {
 		boolean valid = false;

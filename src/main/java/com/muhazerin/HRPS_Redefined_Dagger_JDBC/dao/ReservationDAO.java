@@ -57,7 +57,7 @@ public class ReservationDAO implements DataAccess {
 				if (rs.getString("room_type").equalsIgnoreCase("Single")) {
 					room = new SingleRoom(bedType, roomAvailabilityStatus, wifiEnabled, rs.getString("facing"), smokingAllowed, rs.getInt("room_level"), rs.getInt("room_number"));
 				}
-				else if (rs.getString("rooom_type").equalsIgnoreCase("Standard")) {
+				else if (rs.getString("room_type").equalsIgnoreCase("Standard")) {
 					room = new StandardRoom(bedType, roomAvailabilityStatus, wifiEnabled, rs.getString("facing"), smokingAllowed, rs.getInt("room_level"), rs.getInt("room_number"));
 				}
 				else if (rs.getString("room_type").equalsIgnoreCase("Deluxe")) {
@@ -213,10 +213,7 @@ public class ReservationDAO implements DataAccess {
 			if (oldReservation.getResStatus().toString().equalsIgnoreCase("CONFIRMED") && newReservation.getResStatus().toString().equalsIgnoreCase("CHECKED_IN")) {
 				updateQuery = "UPDATE reservation SET res_status = '" + newReservation.getResStatus().toString() + "' WHERE reservation_id = " + reservationId;
 			}
-			
-			System.out.println("\ntest\n");
-			System.out.println(updateQuery);
-			
+						
 			// update reservation only if updateQuery is not empty
 			if (!updateQuery.equals("")) {
 				Class.forName("com.mysql.cj.jdbc.Driver");

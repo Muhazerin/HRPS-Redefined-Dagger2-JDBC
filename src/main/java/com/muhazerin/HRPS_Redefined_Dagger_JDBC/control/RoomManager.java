@@ -13,6 +13,7 @@ import com.muhazerin.HRPS_Redefined_Dagger_JDBC.entity.SingleRoom;
 import com.muhazerin.HRPS_Redefined_Dagger_JDBC.entity.StandardRoom;
 import com.muhazerin.HRPS_Redefined_Dagger_JDBC.entity.VipSuiteRoom;
 import com.muhazerin.HRPS_Redefined_Dagger_JDBC.interfaces.AddObject;
+import com.muhazerin.HRPS_Redefined_Dagger_JDBC.interfaces.ChecksInRoom;
 import com.muhazerin.HRPS_Redefined_Dagger_JDBC.interfaces.ChecksOutRoom;
 import com.muhazerin.HRPS_Redefined_Dagger_JDBC.interfaces.DataAccess;
 import com.muhazerin.HRPS_Redefined_Dagger_JDBC.interfaces.ModifyObject;
@@ -28,7 +29,7 @@ import com.muhazerin.HRPS_Redefined_Dagger_JDBC.interfaces.SelectRoom;
  *
  */
 
-public class RoomManager implements SelectRoom, AddObject, ModifyObject, PrintSingleObject, PrintAllObjects, ChecksOutRoom{
+public class RoomManager implements SelectRoom, AddObject, ModifyObject, PrintSingleObject, PrintAllObjects, ChecksOutRoom, ChecksInRoom{
 	private ArrayList<Room> roomList;
 	private DataAccess dataAccess;
 	private Scanner sc;
@@ -318,6 +319,12 @@ public class RoomManager implements SelectRoom, AddObject, ModifyObject, PrintSi
 	public void checksOutRoom(Room room) {
 		Room oldRoom = copyRoom(room);
 		room.setAvailabilityStatus(Room.AvailabilityStatus.VACANT);
+		dataAccess.updateObject(oldRoom, room);
+	}
+	@Override
+	public void checksInRoom(Room room) {
+		Room oldRoom = copyRoom(room);
+		room.setAvailabilityStatus(Room.AvailabilityStatus.OCCUPIED);
 		dataAccess.updateObject(oldRoom, room);
 	}
 	

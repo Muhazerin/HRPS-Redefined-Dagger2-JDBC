@@ -6,6 +6,7 @@ import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
+import java.util.Objects;
 import java.util.Scanner;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
@@ -21,6 +22,7 @@ import com.muhazerin.HRPS_Redefined_Dagger_JDBC.entity.RoomService;
 import com.muhazerin.HRPS_Redefined_Dagger_JDBC.interfaces.AddReservation;
 import com.muhazerin.HRPS_Redefined_Dagger_JDBC.interfaces.AddRoomService;
 import com.muhazerin.HRPS_Redefined_Dagger_JDBC.interfaces.AdjustObject;
+import com.muhazerin.HRPS_Redefined_Dagger_JDBC.interfaces.CancelReservation;
 import com.muhazerin.HRPS_Redefined_Dagger_JDBC.interfaces.CheckInReservation;
 import com.muhazerin.HRPS_Redefined_Dagger_JDBC.interfaces.CheckOutReservation;
 import com.muhazerin.HRPS_Redefined_Dagger_JDBC.interfaces.DataAccess;
@@ -36,7 +38,7 @@ import com.muhazerin.HRPS_Redefined_Dagger_JDBC.interfaces.SelectObject;
  *
  */
 
-public class ReservationManager implements AddReservation, ModifyObject, PrintSingleObject, PrintAllObjects, AdjustObject, SelectObject, AddRoomService, PrintRoomServices, CheckInReservation, CheckOutReservation{
+public class ReservationManager implements AddReservation, ModifyObject, PrintSingleObject, PrintAllObjects, AdjustObject, SelectObject, AddRoomService, PrintRoomServices, CheckInReservation, CheckOutReservation, CancelReservation{
 	private ArrayList<Reservation> reservationList;
 	private Scanner sc;
 	private DataAccess dataAccess;
@@ -202,7 +204,7 @@ public class ReservationManager implements AddReservation, ModifyObject, PrintSi
 						if (noOfAdults < 1)
 							System.out.println("Value should not be less than 1");
 					}
-					r.setNoOfChildren(noOfAdults);
+					r.setNoOfAdults(noOfAdults);
 					break;
 				default:
 					System.out.println("Invalid choice");
@@ -329,17 +331,20 @@ public class ReservationManager implements AddReservation, ModifyObject, PrintSi
 		}
  	}
 	@Override
-	public void checkInReservation() {
+	public Room checkInReservation() {
 		ArrayList<Reservation> tempList = searchReservation();
 		if (tempList.size() == 0) {
 			System.out.println("Reservation does not exist");
-			return;
+			return null;
 		}
 		
 		// filter the tempList
 		for (Reservation reservation : tempList) {
 			if (reservation.getResStatus() != Reservation.ResStatus.CONFIRMED) {
 				tempList.remove(reservation);
+			}
+			if (tempList.size() == 0) {
+				break;
 			}
 		}
 		
@@ -349,11 +354,11 @@ public class ReservationManager implements AddReservation, ModifyObject, PrintSi
 			for (Reservation r : tempList) {
 				print(r);
 			}
-			return;
+			return null;
 		}
 		if (tempList.size() == 0) {
 			System.out.println("Reservation does not exist");
-			return;
+			return null;
 		}
 		
 		// if the code reaches here, there's one item in the reservation. Prompt user whether it is the correct reservation
@@ -373,12 +378,13 @@ public class ReservationManager implements AddReservation, ModifyObject, PrintSi
 			else if (choice.equalsIgnoreCase("n")){
 				// exit
 				System.out.println("No other reservation found");
-				return;
+				return null;
 			}
 			else {
 				System.out.println("Invalid Choice");
 			}
 		} while (!choice.equalsIgnoreCase("y") && !choice.equalsIgnoreCase("n"));
+		return tempList.get(0).getRoom();
 	}
 	@Override
 	public Reservation checkOutReservation() {
@@ -402,6 +408,30 @@ public class ReservationManager implements AddReservation, ModifyObject, PrintSi
 		reservation.setCheckOutDate(LocalDate.now());
 		dataAccess.updateObject(oldReservation, reservation);
 		return reservation;
+	}
+	@Override
+	public Room cancelReservation(Guest guest) {
+		Reservation reservation = null;
+		
+		for(Reservation r : reservationList) {
+			if (r.getResStatus().equals(Reservation.ResStatus.CHECKED_IN) || r.getResStatus().equals(Reservation.ResStatus.CONFIRMED)) {
+				if (Objects.equals(r.getGuest(), guest)) {
+					reservation = r;
+					break;
+				}
+			}
+		}
+		
+		if (Objects.equals(reservation, null)) {
+			System.out.println("Reservation is not found");
+			return null;
+		}
+		
+		Reservation oldReservation = copyReservation(reservation);
+		reservation.setResStatus(Reservation.ResStatus.CANCELLED);
+		dataAccess.updateObject(oldReservation, reservation);
+		
+		return reservation.getRoom();
 	}
 	
 	/*

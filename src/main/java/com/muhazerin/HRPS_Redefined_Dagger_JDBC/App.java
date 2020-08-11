@@ -95,7 +95,8 @@ public class App
 				reservationManager.addReservation(guest, room, true);
 				break;
 			case 6:
-				reservationManager.checkInReservation();
+				Room r = reservationManager.checkInReservation();
+				roomManager.checksInRoom(r);
 				break;
 			case 7:
 				Reservation reservation = reservationManager.checkOutReservation();
@@ -280,13 +281,16 @@ public class App
 	}
 	
 	private static void reservationOption(int option, GuestManager guestManager, RoomManager roomManager, ReservationManager reservationManager, MenuItemManager menuUtemManager) {
+		Guest guest = null;
+		Room room = null;
 		switch (option) {
 			case 0:
 				System.out.println("Going back...");
 				break;
 			case 1:
-				Guest guest = (Guest) guestManager.selectObject();
-				Room room = roomManager.selectRoom(false);
+				guest = (Guest) guestManager.selectObject();
+				System.out.printf("NRIC: %s, Name: %s, Gender: %s, Country: %s, Nationality: %s, Address: %s\n", guest.getNRIC(), guest.getName(), guest.getGender(), guest.getCountry(), guest.getNationality(), guest.getAddress());
+				room = roomManager.selectRoom(false);
 				
 				reservationManager.addReservation(guest, room, false);
 				break;
@@ -294,6 +298,9 @@ public class App
 				reservationManager.modify();
 				break;
 			case 3:
+				guest = (Guest) guestManager.selectObject();
+				room = reservationManager.cancelReservation(guest);
+				roomManager.checksOutRoom(room);
 				break;
 			case 4:
 				reservationManager.printSingle();
