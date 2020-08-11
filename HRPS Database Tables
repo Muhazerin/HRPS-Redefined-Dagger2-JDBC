@@ -1,0 +1,77 @@
+CREATE TABLE `guest` (
+  `guest_id` int NOT NULL AUTO_INCREMENT,
+  `nric` varchar(9) NOT NULL,
+  `name` varchar(50) NOT NULL,
+  `gender` varchar(10) NOT NULL,
+  `nationality` varchar(20) NOT NULL,
+  `address` varchar(100) NOT NULL,
+  `country` varchar(20) NOT NULL,
+  `card_type` varchar(6) NOT NULL,
+  `card_no` bigint NOT NULL,
+  `cvv` int NOT NULL,
+  `credit_card_name` varchar(50) NOT NULL,
+  `credit_card_address` varchar(100) NOT NULL,
+  `credit_card_country` varchar(20) NOT NULL,
+  `exp` varchar(5) NOT NULL,
+  PRIMARY KEY (`guest_id`)
+ );
+ 
+ CREATE TABLE `menu_item` (
+  `menu_item_id` int NOT NULL AUTO_INCREMENT,
+  `name` varchar(50) NOT NULL,
+  `description` varchar(100) NOT NULL,
+  `price` float NOT NULL,
+  PRIMARY KEY (`menu_item_id`)
+);
+
+CREATE TABLE `reservation` (
+  `reservation_id` int NOT NULL AUTO_INCREMENT,
+  `guest_id` int NOT NULL,
+  `room_id` int NOT NULL,
+  `check_in_date` date NOT NULL,
+  `check_out_date` date DEFAULT NULL,
+  `no_of_adults` int NOT NULL,
+  `no_of_children` int NOT NULL,
+  `res_status` varchar(11) NOT NULL,
+  PRIMARY KEY (`reservation_id`),
+  KEY `guest_id` (`guest_id`),
+  KEY `room_id` (`room_id`),
+  CONSTRAINT `reservation_ibfk_1` FOREIGN KEY (`guest_id`) REFERENCES `guest` (`guest_id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
+  CONSTRAINT `reservation_ibfk_2` FOREIGN KEY (`room_id`) REFERENCES `room` (`room_id`) ON DELETE RESTRICT ON UPDATE RESTRICT
+);
+
+CREATE TABLE `room` (
+  `room_id` int NOT NULL AUTO_INCREMENT,
+  `room_level` int NOT NULL,
+  `room_number` int NOT NULL,
+  `bed_type` varchar(6) NOT NULL,
+  `avail_status` varchar(11) NOT NULL,
+  `wifi_enabled` tinyint(1) NOT NULL,
+  `smoking_allowed` tinyint(1) NOT NULL,
+  `facing` varchar(50) NOT NULL,
+  `rate` double NOT NULL,
+  `room_type` varchar(10) NOT NULL,
+  PRIMARY KEY (`room_id`)
+);
+
+CREATE TABLE `room_service` (
+  `room_service_id` int NOT NULL AUTO_INCREMENT,
+  `room_service_status` varchar(10) NOT NULL,
+  `order_date` date NOT NULL,
+  `reservation_id` int NOT NULL,
+  PRIMARY KEY (`room_service_id`),
+  KEY `reservation_id` (`reservation_id`),
+  CONSTRAINT `room_service_ibfk_1` FOREIGN KEY (`reservation_id`) REFERENCES `reservation` (`reservation_id`) ON DELETE RESTRICT ON UPDATE RESTRICT
+);
+
+CREATE TABLE `room_service_menu_item` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `menu_item_id` int NOT NULL,
+  `room_service_id` int NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `room_service_id` (`room_service_id`),
+  KEY `menu_item_id` (`menu_item_id`),
+  CONSTRAINT `room_service_menu_item_ibfk_1` FOREIGN KEY (`room_service_id`) REFERENCES `room_service` (`room_service_id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
+  CONSTRAINT `room_service_menu_item_ibfk_2` FOREIGN KEY (`menu_item_id`) REFERENCES `menu_item` (`menu_item_id`) ON DELETE RESTRICT ON UPDATE RESTRICT
+);
+
