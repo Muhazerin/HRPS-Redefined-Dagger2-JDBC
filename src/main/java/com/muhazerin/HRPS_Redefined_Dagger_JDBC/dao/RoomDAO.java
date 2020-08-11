@@ -28,7 +28,7 @@ public class RoomDAO implements DataAccess {
 			String query = "select * from room";
 			
 			Class.forName("com.mysql.cj.jdbc.Driver");
-			Connection con = DriverManager.getConnection("jdbc:mysql://localhost/hrps", "muhazerin", "CDW=$V6*BJ-M]gB");
+			Connection con = DriverManager.getConnection("jdbc:mysql://localhost/hrps?useTimeZone=true&serverTimezone=UTC#&dummyparam=", "muhazerin", "CDW=$V6*BJ-M]gB");
 			Statement st = con.createStatement();
 			ResultSet rs = st.executeQuery(query);
 
@@ -85,7 +85,7 @@ public class RoomDAO implements DataAccess {
 					room.getRoomLevel(), room.getRoomNumber(), room.getBedType(), room.getAvailabilityStatus(), room.isWifiEnabled(), room.isSmokingAllowed(), room.getFacing(), room.getRate(), room.getRoomType());
 			
 			Class.forName("com.mysql.cj.jdbc.Driver");
-			Connection con = DriverManager.getConnection("jdbc:mysql://localhost/hrps", "muhazerin", "CDW=$V6*BJ-M]gB");
+			Connection con = DriverManager.getConnection("jdbc:mysql://localhost/hrps?useTimeZone=true&serverTimezone=UTC#&dummyparam=", "muhazerin", "CDW=$V6*BJ-M]gB");
 			Statement st = con.createStatement();
 			int rowsAffected = st.executeUpdate(query);
 			
@@ -126,7 +126,7 @@ public class RoomDAO implements DataAccess {
 					oldRoom.getRoomLevel(), oldRoom.getRoomNumber(), oldRoom.getBedType(), oldRoom.getAvailabilityStatus(), oldRoom.isWifiEnabled(), oldRoom.isSmokingAllowed(), oldRoom.getFacing(), oldRoom.getRate(), oldRoom.getRoomType());
 			
 			Class.forName("com.mysql.cj.jdbc.Driver");
-			Connection con = DriverManager.getConnection("jdbc:mysql://localhost/hrps", "muhazerin", "CDW=$V6*BJ-M]gB");
+			Connection con = DriverManager.getConnection("jdbc:mysql://localhost/hrps?useTimeZone=true&serverTimezone=UTC#&dummyparam=", "muhazerin", "CDW=$V6*BJ-M]gB");
 			Statement st = con.createStatement();
 			int rowsAffected = st.executeUpdate(query);
 			

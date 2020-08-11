@@ -26,7 +26,7 @@ public class MenuItemDAO implements DataAccess {
 			String query = "select * from menu_item";
 			
 			Class.forName("com.mysql.cj.jdbc.Driver");
-			Connection con = DriverManager.getConnection("jdbc:mysql://localhost/hrps", "muhazerin", "CDW=$V6*BJ-M]gB");
+			Connection con = DriverManager.getConnection("jdbc:mysql://localhost/hrps?useTimeZone=true&serverTimezone=UTC#&dummyparam=", "muhazerin", "CDW=$V6*BJ-M]gB");
 			Statement st = con.createStatement();
 			ResultSet rs = st.executeQuery(query);
 			
@@ -62,7 +62,7 @@ public class MenuItemDAO implements DataAccess {
 					menuItem.getName(), menuItem.getDescription(), menuItem.getPrice());
 						
 			Class.forName("com.mysql.cj.jdbc.Driver");
-			Connection con = DriverManager.getConnection("jdbc:mysql://localhost/hrps", "muhazerin", "CDW=$V6*BJ-M]gB");
+			Connection con = DriverManager.getConnection("jdbc:mysql://localhost/hrps?useTimeZone=true&serverTimezone=UTC#&dummyparam=", "muhazerin", "CDW=$V6*BJ-M]gB");
 			Statement st = con.createStatement();
 			int rowsAffected = st.executeUpdate(query);
 			
@@ -102,7 +102,7 @@ public class MenuItemDAO implements DataAccess {
 					oldMenuItem.getName(), oldMenuItem.getDescription(), oldMenuItem.getPrice());
 			
 			Class.forName("com.mysql.cj.jdbc.Driver");
-			Connection con = DriverManager.getConnection("jdbc:mysql://localhost/hrps", "muhazerin", "CDW=$V6*BJ-M]gB");
+			Connection con = DriverManager.getConnection("jdbc:mysql://localhost/hrps?useTimeZone=true&serverTimezone=UTC#&dummyparam=", "muhazerin", "CDW=$V6*BJ-M]gB");
 			Statement st = con.createStatement();
 			int rowsAffected = st.executeUpdate(query);
 			

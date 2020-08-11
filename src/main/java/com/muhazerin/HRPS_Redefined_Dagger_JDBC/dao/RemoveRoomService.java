@@ -11,7 +11,7 @@ public abstract class RemoveRoomService {
 			String selectRoomservice = "Select room_service_id from room_service where reservation_id = " + reservationId;
 			
 			Class.forName("com.mysql.cj.jdbc.Driver");
-			Connection con = DriverManager.getConnection("jdbc:mysql://localhost/hrps", "muhazerin", "CDW=$V6*BJ-M]gB");
+			Connection con = DriverManager.getConnection("jdbc:mysql://localhost/hrps?useTimeZone=true&serverTimezone=UTC#&dummyparam=", "muhazerin", "CDW=$V6*BJ-M]gB");
 			Statement st = con.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, 
 					   ResultSet.CONCUR_READ_ONLY);
 			ResultSet roomServiceRS = st.executeQuery(selectRoomservice);

@@ -20,7 +20,7 @@ public abstract class RoomServiceDAO {
 			String query = "SELECT * FROM room_service WHERE reservation_id = " + reservationId;
 			
 			Class.forName("com.mysql.cj.jdbc.Driver");
-			Connection con = DriverManager.getConnection("jdbc:mysql://localhost/hrps", "muhazerin", "CDW=$V6*BJ-M]gB");
+			Connection con = DriverManager.getConnection("jdbc:mysql://localhost/hrps?useTimeZone=true&serverTimezone=UTC#&dummyparam=", "muhazerin", "CDW=$V6*BJ-M]gB");
 			Statement st = con.createStatement();
 			ResultSet rs = st.executeQuery(query);
 			
@@ -61,7 +61,7 @@ public abstract class RoomServiceDAO {
 					roomService.getRoomServiceStatus().toString(), roomService.getOrderDate().toString(), reservationId);
 			
 			Class.forName("com.mysql.cj.jdbc.Driver");
-			Connection con = DriverManager.getConnection("jdbc:mysql://localhost/hrps", "muhazerin", "CDW=$V6*BJ-M]gB");
+			Connection con = DriverManager.getConnection("jdbc:mysql://localhost/hrps?useTimeZone=true&serverTimezone=UTC#&dummyparam=", "muhazerin", "CDW=$V6*BJ-M]gB");
 			Statement st = con.createStatement();
 			int rowsAffected = st.executeUpdate(query);
 			
@@ -102,7 +102,7 @@ public abstract class RoomServiceDAO {
 			String query = "SELECT menu_item.* FROM room_service_menu_item JOIN menu_item ON room_service_menu_item.menu_item_id = menu_item.menu_item_id WHERE room_service_id = " + roomServiceId;
 			
 			Class.forName("com.mysql.cj.jdbc.Driver");
-			Connection con = DriverManager.getConnection("jdbc:mysql://localhost/hrps", "muhazerin", "CDW=$V6*BJ-M]gB");
+			Connection con = DriverManager.getConnection("jdbc:mysql://localhost/hrps?useTimeZone=true&serverTimezone=UTC#&dummyparam=", "muhazerin", "CDW=$V6*BJ-M]gB");
 			Statement st = con.createStatement();
 			ResultSet rs = st.executeQuery(query);
 			

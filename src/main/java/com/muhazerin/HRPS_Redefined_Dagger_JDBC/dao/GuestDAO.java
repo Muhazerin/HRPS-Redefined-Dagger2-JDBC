@@ -26,7 +26,7 @@ public class GuestDAO implements DataAccess{
 			String query = "select * from guest";
 			
 			Class.forName("com.mysql.cj.jdbc.Driver");
-			Connection con = DriverManager.getConnection("jdbc:mysql://localhost/hrps", "muhazerin", "CDW=$V6*BJ-M]gB");
+			Connection con = DriverManager.getConnection("jdbc:mysql://localhost/hrps?useTimeZone=true&serverTimezone=UTC#&dummyparam=", "muhazerin", "CDW=$V6*BJ-M]gB");
 			Statement st = con.createStatement();
 			ResultSet rs = st.executeQuery(query);
 			
@@ -74,7 +74,7 @@ public class GuestDAO implements DataAccess{
 					guest.getNRIC(), guest.getName(), guest.getGender(), guest.getNationality(), guest.getAddress(), guest.getCountry(), guest.getCreditCard().getCardType().toString(), guest.getCreditCard().getCardNo(), guest.getCreditCard().getCvv(), guest.getCreditCard().getName(), guest.getCreditCard().getAddress(), guest.getCreditCard().getCountry(), guest.getCreditCard().getExp());
 			
 			Class.forName("com.mysql.cj.jdbc.Driver");
-			Connection con = DriverManager.getConnection("jdbc:mysql://localhost/hrps", "muhazerin", "CDW=$V6*BJ-M]gB");
+			Connection con = DriverManager.getConnection("jdbc:mysql://localhost/hrps?useTimeZone=true&serverTimezone=UTC#&dummyparam=", "muhazerin", "CDW=$V6*BJ-M]gB");
 			Statement st = con.createStatement();
 			int rowsAffected = st.executeUpdate(query);
 			
@@ -114,7 +114,7 @@ public class GuestDAO implements DataAccess{
 					oldGuest.getNRIC(), oldGuest.getName(), oldGuest.getGender(), oldGuest.getNationality(), oldGuest.getAddress(), oldGuest.getCountry(), oldGuest.getCreditCard().getCardType().toString(), oldGuest.getCreditCard().getCardNo(), oldGuest.getCreditCard().getCvv(), oldGuest.getCreditCard().getName(), oldGuest.getCreditCard().getAddress(), oldGuest.getCreditCard().getCountry(), oldGuest.getCreditCard().getExp());
 			
 			Class.forName("com.mysql.cj.jdbc.Driver");
-			Connection con = DriverManager.getConnection("jdbc:mysql://localhost/hrps", "muhazerin", "CDW=$V6*BJ-M]gB");
+			Connection con = DriverManager.getConnection("jdbc:mysql://localhost/hrps?useTimeZone=true&serverTimezone=UTC#&dummyparam=", "muhazerin", "CDW=$V6*BJ-M]gB");
 			Statement st = con.createStatement();
 			int rowsAffected = st.executeUpdate(query);
 			

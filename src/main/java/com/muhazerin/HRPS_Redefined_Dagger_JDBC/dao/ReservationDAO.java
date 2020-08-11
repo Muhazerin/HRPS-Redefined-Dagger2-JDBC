@@ -35,7 +35,7 @@ public class ReservationDAO implements DataAccess {
 			String query = "SELECT guest.*, room.*, reservation.* FROM reservation JOIN guest ON guest.guest_id = reservation.guest_id JOIN room ON room.room_id = reservation.room_id";
 		
 			Class.forName("com.mysql.cj.jdbc.Driver");
-			Connection con = DriverManager.getConnection("jdbc:mysql://localhost/hrps", "muhazerin", "CDW=$V6*BJ-M]gB");
+			Connection con = DriverManager.getConnection("jdbc:mysql://localhost/hrps?useTimeZone=true&serverTimezone=UTC#&dummyparam=", "muhazerin", "CDW=$V6*BJ-M]gB");
 			Statement st = con.createStatement();
 			ResultSet rs = st.executeQuery(query);
 			
@@ -148,7 +148,7 @@ public class ReservationDAO implements DataAccess {
 					guest_id, room_id, reservation.getCheckInDate().toString(), reservation.getNoOfAdults(), reservation.getNoOfChildren(), reservation.getResStatus().toString());
 		
 			Class.forName("com.mysql.cj.jdbc.Driver");
-			Connection con = DriverManager.getConnection("jdbc:mysql://localhost/hrps", "muhazerin", "CDW=$V6*BJ-M]gB");
+			Connection con = DriverManager.getConnection("jdbc:mysql://localhost/hrps?useTimeZone=true&serverTimezone=UTC#&dummyparam=", "muhazerin", "CDW=$V6*BJ-M]gB");
 			Statement st = con.createStatement();
 			int rowsAffected = st.executeUpdate(query);
 			
@@ -220,7 +220,7 @@ public class ReservationDAO implements DataAccess {
 			// update reservation only if updateQuery is not empty
 			if (!updateQuery.equals("")) {
 				Class.forName("com.mysql.cj.jdbc.Driver");
-				Connection con = DriverManager.getConnection("jdbc:mysql://localhost/hrps", "muhazerin", "CDW=$V6*BJ-M]gB");
+				Connection con = DriverManager.getConnection("jdbc:mysql://localhost/hrps?useTimeZone=true&serverTimezone=UTC#&dummyparam=", "muhazerin", "CDW=$V6*BJ-M]gB");
 				Statement st = con.createStatement();
 				int rowsAffected = st.executeUpdate(updateQuery);
 				
@@ -252,7 +252,7 @@ public class ReservationDAO implements DataAccess {
 			
 			String query = "SELECT guest_id FROM guest WHERE nric = '" + guest.getNRIC() + "'";
 			Class.forName("com.mysql.cj.jdbc.Driver");
-			Connection con = DriverManager.getConnection("jdbc:mysql://localhost/hrps", "muhazerin", "CDW=$V6*BJ-M]gB");
+			Connection con = DriverManager.getConnection("jdbc:mysql://localhost/hrps?useTimeZone=true&serverTimezone=UTC#&dummyparam=", "muhazerin", "CDW=$V6*BJ-M]gB");
 			Statement st = con.createStatement();
 			ResultSet rs = st.executeQuery(query);
 			rs.next();
@@ -275,7 +275,7 @@ public class ReservationDAO implements DataAccess {
 			
 			String query = "SELECT room_id FROM room WHERE room_level = " + room.getRoomLevel() + " and room_number = " + room.getRoomNumber();
 			Class.forName("com.mysql.cj.jdbc.Driver");
-			Connection con = DriverManager.getConnection("jdbc:mysql://localhost/hrps", "muhazerin", "CDW=$V6*BJ-M]gB");
+			Connection con = DriverManager.getConnection("jdbc:mysql://localhost/hrps?useTimeZone=true&serverTimezone=UTC#&dummyparam=", "muhazerin", "CDW=$V6*BJ-M]gB");
 			Statement st = con.createStatement();
 			ResultSet rs = st.executeQuery(query);
 			rs.next();
@@ -299,7 +299,7 @@ public class ReservationDAO implements DataAccess {
 					guestId, roomId, reservation.getCheckInDate().toString(), reservation.getNoOfAdults(), reservation.getNoOfChildren(), reservation.getResStatus().toString());
 			
 			Class.forName("com.mysql.cj.jdbc.Driver");
-			Connection con = DriverManager.getConnection("jdbc:mysql://localhost/hrps", "muhazerin", "CDW=$V6*BJ-M]gB");
+			Connection con = DriverManager.getConnection("jdbc:mysql://localhost/hrps?useTimeZone=true&serverTimezone=UTC#&dummyparam=", "muhazerin", "CDW=$V6*BJ-M]gB");
 			Statement st = con.createStatement();
 			ResultSet rs = st.executeQuery(query);
 			rs.next();
